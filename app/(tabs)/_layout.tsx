@@ -1,45 +1,73 @@
-import { Tabs } from 'expo-router';
+// app/(tabs)/_layout.tsx
 import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Tabs } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Home, TrendingUp, CreditCard, User, BarChart3, Wallet, PieChart } from 'lucide-react-native';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const insets = useSafeAreaInsets();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+    <>
+      <StatusBar style="light" translucent backgroundColor="transparent" />
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#22c55e',
+          tabBarInactiveTintColor: '#9ca3af',
+          tabBarStyle: {
+            backgroundColor: '#ffffff',
+            borderTopWidth: 1,
+            borderTopColor: '#f3f4f6',
+            height: 70 + insets.bottom,
+            paddingBottom: 10 + insets.bottom,
+            paddingTop: 10,
           },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: '600',
+            marginTop: 4,
+          },
+          headerShown: false,
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="home"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <Home size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="finance"
+          options={{
+            title: 'Finance',
+            tabBarIcon: ({ color, size }) => (
+              <TrendingUp size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="cards"
+          options={{
+            title: 'Cards',
+            tabBarIcon: ({ color, size }) => (
+              <CreditCard size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ color, size }) => (
+              <User size={size} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </>
   );
 }
