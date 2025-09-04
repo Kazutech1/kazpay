@@ -1,6 +1,6 @@
 // app/(tabs)/home.tsx
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp, FadeInDown } from 'react-native-reanimated';
 import { 
@@ -22,6 +22,7 @@ import {
   Receipt
 } from 'lucide-react-native';
 import { StatusBar } from 'expo-status-bar';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
   const [balanceVisible, setBalanceVisible] = useState(true);
@@ -87,6 +88,27 @@ export default function HomeScreen() {
   const filteredTransactions = activeTab === 'all' 
     ? recentTransactions 
     : recentTransactions.filter(tx => tx.type === activeTab);
+
+
+    const handleQuickAction = (actionTitle) => {
+  switch (actionTitle.toLowerCase()) {
+    case 'send money':
+      router.replace('/(transfer)');
+      break;
+    case 'qr pay':
+      // router.push('/qr-pay/index');
+      break;
+    case 'top up':
+      // router.push('/topup/index');
+      break;
+    case 'mobile credit':
+      // router.push('/mobile-credit/index');
+      break;
+    default:
+      console.log(`No navigation defined for: ${actionTitle}`);
+  }
+};
+
 
   return (
     <ScrollView 
@@ -167,33 +189,34 @@ export default function HomeScreen() {
       </LinearGradient>
 
       {/* Quick Actions */}
-      <Animated.View 
-        entering={FadeInUp.duration(800).delay(200)}
-        className="px-6 -mt-6 mb-6"
-      >
-        <View className="bg-white rounded-2xl p-5 shadow-lg shadow-black/5">
-          <Text className="text-gray-900 text-lg font-bold mb-4">Quick Actions</Text>
-          <View className="flex-row justify-between">
-            {quickActions.map((action, index) => (
-              <TouchableOpacity 
-                key={index}
-                className="items-center flex-1"
-                activeOpacity={0.7}
-              >
-                <View 
-                  className="w-14 h-14 rounded-2xl items-center justify-center mb-2"
-                  style={{ backgroundColor: `${action.color}15` }}
-                >
-                  <action.icon size={24} color={action.color} />
-                </View>
-                <Text className="text-gray-700 text-xs font-medium text-center">
-                  {action.title}
-                </Text>
-              </TouchableOpacity>
-            ))}
+    <Animated.View 
+  entering={FadeInUp.duration(800).delay(200)}
+  className="px-6 -mt-6 mb-6"
+>
+  <View className="bg-white rounded-2xl p-5 shadow-lg shadow-black/5">
+    <Text className="text-gray-900 text-lg font-bold mb-4">Quick Actions</Text>
+    <View className="flex-row justify-between">
+      {quickActions.map((action, index) => (
+        <TouchableOpacity 
+          key={index}
+          className="items-center flex-1"
+          activeOpacity={0.7}
+          onPress={() => handleQuickAction(action.title)}
+        >
+          <View 
+            className="w-14 h-14 rounded-2xl items-center justify-center mb-2"
+            style={{ backgroundColor: `${action.color}15` }}
+          >
+            <action.icon size={24} color={action.color} />
           </View>
-        </View>
-      </Animated.View>
+          <Text className="text-gray-700 text-xs font-medium text-center">
+            {action.title}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  </View>
+</Animated.View>
 
       {/* Spending Overview */}
       <Animated.View 

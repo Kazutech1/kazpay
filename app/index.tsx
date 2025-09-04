@@ -269,7 +269,7 @@ const SplashScreen = ({ navigation }) => {
               {[0, 1, 2].map((index) => (
                 <Animated.View
                   key={index}
-                  className="w-2.5 h-2.5 bg-white/90 rounded-full"  // Increased opacity
+                  className="w-2.5 h-2.5 bg-white/90 rounded-full"  
                   style={{
                     transform: [
                       {
@@ -288,7 +288,7 @@ const SplashScreen = ({ navigation }) => {
               ))}
             </View>
             
-            <Text className="text-white/80 text-sm font-light">  // Increased opacity
+            <Text className="text-white/80 text-sm font-light">  
               Initializing secure connection...
             </Text>
           </Animated.View>

@@ -36,17 +36,39 @@ export default function RootLayout() {
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
+        animationDuration: 200, // Faster animation (default is ~300ms)
         gestureEnabled: true,
+        gestureResponseDistance: 50, // More responsive gestures
       }}
     >
       {/* Root splash page */}
       <Stack.Screen name="index" options={{ headerShown: false }} />
 
       {/* Auth flow */}
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen 
+        name="(auth)" 
+        options={{ 
+          headerShown: false,
+          animationDuration: 50, // Even faster for auth flow
+        }} 
+      />
 
       {/* Tabs flow */}
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen 
+        name="(tabs)" 
+        options={{ 
+          headerShown: false,
+          animationDuration: 50, // Slightly faster for main app
+        }} 
+      />
+
+      <Stack.Screen 
+        name="(transfer)" 
+        options={{ 
+          headerShown: false,
+          animationDuration: 50, // Quick for transfer flow
+        }} 
+      />
     </Stack>
   );
 }
